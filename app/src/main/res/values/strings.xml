@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GameLoot</string>
+    <string name="home_btn">Home</string>
+    <string name="details_btn">Details</string>
+    <string name="search">Search</string>
+    <string name="imageView_description">Search button</string>
+</resources>
