@@ -3,7 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="15dp"
+    app:cardPreventCornerOverlap="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,8 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
             android:text="Username"
             android:textSize="16sp"
+            android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,8 +35,8 @@
             android:contentDescription="Rate"
             android:isIndicator="true"
             android:numStars="10"
-            android:scaleX="0.8"
-            android:scaleY="0.9"
+            android:scaleX="0.78"
+            android:scaleY="0.8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

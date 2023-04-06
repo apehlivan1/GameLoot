@@ -4,22 +4,22 @@ class GameData {
     companion object {
         private val games = listOf(
             Game(
-                "The Legend of Zelda: Breath of the Wild",
-                "Nintendo Switch",
-            "March 03, 2017",
-                9.5,
-                "https://example.com/breath_of_the_wild_cover.jpg",
-                "E10+",
-                "Nintendo EPD",
-                "Nintendo",
-                "Action-adventure",
-                "A new installment in the long-running Legend of Zelda series. The game takes place in an open world and allows the player to explore at their own pace.",
+                "Hogwarts Legacy",
+                "Microsoft Windows, PlayStation 4, PlayStation 5, Xbox One, Xbox Series X/S",
+            "February 10, 2023",
+                9.0,
+                "https://www.playstation.com/en-us/games/hogwarts-legacy/",
+                "T",
+                "Avalanche Software",
+                "Warner Bros. Interactive Entertainment",
+                "Action",
+                "Players take on the role of a student at Hogwarts School of Witchcraft and Wizardry in the late 1800s, exploring the school and its surrounding areas while learning spells and engaging in magical combat.",
                 listOf(
-                    UserRating("user123", 1614710400, 9.0),
-                    UserRating("ja", 1614451200, 8.5),
-                    UserRating("nikonikic", 1614182400, 10.0),
+                    UserRating("hermione12", 1614710400, 10.0),
+                    UserRating("Lee", 1614451200, 8.0),
+                    UserRating("Gryffindor", 1614182400, 9.0),
                     UserReview("gaamer1", 1614009600, "This is one of the best games I've ever played!"),
-                    UserReview("gamer4life", 1613836800, "The open world is amazing, but the weapon durability system can be frustrating.")
+                    UserReview("gamer4life", 1613836800, "The open world is amazing.")
                 )
             ),
             Game(
@@ -34,35 +34,35 @@ class GameData {
                 "Platformer",
                 "Mario's latest adventure takes him on a globe-trotting journey to rescue Princess Peach from Bowser's wedding plans.",
                 listOf(
-                    UserRating("johndoe", 1614710400, 9.5),
-                    UserRating("janedoe", 1614451200, 8.0),
+                    UserRating("WilliamFletcher", 1614710400, 9.5),
+                    UserRating("ranger_", 1614451200, 8.0),
                     UserRating("user123", 1614182400, 9.0),
-                    UserReview("gamer456", 1614009600, "The new capture mechanic adds a ton of variety and fun to the gameplay."),
+                    UserReview("Stephann", 1614009600, "The new capture mechanic adds a ton of variety and fun to the gameplay."),
                     UserReview("games4life", 1613836800, "The game is great, but some of the moons can be a bit too easy to get.")
                 )
             ),
             Game(
-                "Witcher 3: Wild Hunt",
-                "PS4, Xbox One, PC",
-                "May 19, 2015",
-                9.3,
+                "Spider-Man",
+                "PlayStation 4, PlayStation 5",
+                "September 7, 2018",
+                8.7,
                 "https://nesto.com/1RjJAvw.jpg",
-            "M",
-                "CD Projekt Red",
-                "CD Projekt",
-                "Action",
-                "In The Witcher 3: Wild Hunt, players control Geralt of Rivia, a monster hunter known as a Witcher. The game takes place in a massive open world filled with dangerous monsters and political intrigue. Players must make choices that affect the game's story and the fate of the world.",
+            "T",
+                "Insomniac Games",
+                "Sony Interactive Entertainment",
+                "Action-adventure",
+                "Spider-Man is a video game based on the Marvel Comics superhero Spider-Man. Players take on the role of Peter Parker/Spider-Man, exploring an open world version of New York City while battling various enemies and supervillains.",
                 listOf(
-                    UserRating("JohnDoe", 1649251200, 9.5),
-                    UserRating("JaneDoe", 1648569600, 8.5),
-                    UserReview("AlexSmith", 1648280400, "The Witcher 3 is a masterpiece of storytelling and open-world exploration. The characters are well-written and the world feels alive. The combat can be challenging, but it's always rewarding when you emerge victorious."),
-                    UserRating("PixelPundit", 1647602400, 9.0),
-                    UserReview("AdventureAddict", 1646684400, "I love this game! The world is huge and there's always something to do. The characters are great and the story is engaging. The only downside is that it's a bit buggy at times.")
+                    UserRating("Killer87", 1649251200, 9.5),
+                    UserRating("BulletProof_1", 1648569600, 8.5),
+                    UserReview("t1tanium", 1648280400, "Marvel's Spider-Man is one of the best games I have ever played, there are so many things that I enjoyed here that I wish I could play it all over again. It is a beautiful tribute to one of my favorite characters of all time."),
+                    UserRating("PixelPundit", 1647602400, 8.0),
+                    UserReview("AdventureAddict", 1646684400, "Storyline was AMAZING. It made you feel like you were Peter Parker and Spiderman. It has a lot of heart touching moments.")
                 )
             ),
             Game(
                 "Grand Theft Auto V",
-                "PS4, Xbox One, PC",
+                "PlayStation 4, Xbox One, PC",
                 "September 17, 2013",
                 8.7,
                 "https://i.imgur.com/JL8pBfP.jpg",
@@ -72,8 +72,8 @@ class GameData {
                 "Action-Adventure",
                 "In Grand Theft Auto V, players control three different characters who must work together to pull off a series of heists in the fictional city of Los Santos. The game features a massive open world filled with activities and missions, as well as a robust online multiplayer mode.",
                 listOf(
-                    UserRating("JohnDoe", 1649251200, 8.0),
-                    UserReview("JaneDoe", 1648569600, "GTA V is a lot of fun, but it can also be frustrating at times. The story is good and the world is huge, but some of the missions can be a bit repetitive. The online multiplayer is where the real fun is at, though."),
+                    UserRating("sabotage.5", 1649251200, 8.0),
+                    UserReview("AccidentalGenius", 1648569600, "GTA V is a lot of fun, but it can also be frustrating at times. The story is good and the world is huge, but some of the missions can be a bit repetitive. The online multiplayer is where the real fun is at, though."),
                     UserRating("GameGuru", 1648280400, 9.0),
                     UserRating("MarkJohnson", 1647602400, 8.5),
                     UserReview("EmilyDavis", 1646684400, "I've been playing GTA V for years and I still love it. The story is great and the world is so detailed. The online multiplayer is where I spend most of my time, and there's always something new to do.")
@@ -81,7 +81,7 @@ class GameData {
             ),
             Game(
                 "Horizon Zero Dawn",
-                "PS4, PC",
+                "PlayStation 4, PC",
                 "February 28, 2017",
                 9.0,
                 "https://i.imgur.com/M8hjwqs.jpg",
@@ -92,10 +92,10 @@ class GameData {
                 "Horizon Zero Dawn is an action RPG set in a post-apocalyptic world where machines have taken over. Players control Aloy, a skilled hunter who sets out to uncover the truth about her past and the world she lives in. The game features a vast open world, thrilling combat, and a deep and engaging story.",
                 listOf(
                     UserRating("GameGuru", 1649251200, 8.5),
-                    UserRating("JaneDoe", 1648569600, 9.0),
+                    UserRating("Alpha", 1648569600, 9.0),
                     UserReview("PixelPundit", 1648280400, "Horizon Zero Dawn is one of my favorite games of all time. The story is engaging, the world is beautiful, and the combat is so much fun. The only downside is that it can be a bit repetitive at times."),
-                    UserRating("MarkJohnson", 1647602400, 8.0),
-                    UserReview("AdventureAddict", 1646684400, "I really enjoyed Horizon Zero Dawn. The world is huge and there's always something new to discover. The combat is challenging but rewarding, and the story is interesting.")
+                    UserRating("Angel2006", 1647602400, 8.0),
+                    UserReview("CapitalA", 1646684400, "I really enjoyed Horizon Zero Dawn. The world is huge and there's always something new to discover. The combat is challenging but rewarding, and the story is interesting.")
                 )
             ),
             Game(
@@ -126,7 +126,7 @@ class GameData {
             ),
             Game(
                 "The Last of Us Part II",
-                "PS4, PS5",
+                "PlayStation 4, PlayStation 5",
                 "June 19, 2020",
                 9.5,
                 "https://i.imgur.com/njKX8pA.jpg",
@@ -145,7 +145,7 @@ class GameData {
             ),
             Game(
                 "God of War",
-                "PS4, PS5",
+                "PlayStation 4, PlayStation 5",
                 "April 20, 2018",
                 9.6,
                 "https://i.imgur.com/UllU1ck.jpg",
@@ -160,22 +160,22 @@ class GameData {
                 )
             ),
             Game(
-                "Animal Crossing: New Horizons",
-                "Nintendo Switch",
-                "March 20, 2020",
-                9.0,
+                "Hitman 3",
+                "PlayStation 4, PlayStation 5, Xbox One, Xbox Series X/S, Nintendo Switch",
+                "January 20, 2021",
+                8.8,
                 "https://i.imgur.com/WyJdqD9.jpg",
-                "E",
-                "Nintendo EPD",
-                "Nintendo",
-                "Life Simulation",
-                "Animal Crossing: New Horizons is a life simulation game where players create their own character and live on a deserted island with animal villagers. The game allows players to customize their own homes and island, and interact with the other villagers in various activities like fishing, bug catching, and fossil hunting.",
+                "M",
+                "IO Interactive",
+                "IO Interactive",
+                "Action-adventure",
+                " Players once again control Agent 47 as he completes contracts to eliminate high-profile targets in exotic locations around the world.",
                 listOf(
                     UserRating("TomNook", 1649251200, 8.5),
-                    UserReview("Isabelle", 1648569600, "Animal Crossing: New Horizons is a wonderful escape from reality. The game is so relaxing and the music is amazing. I could play this game for hours on end."),
+                    UserReview("Isabelle", 1648569600, "Overall the game is pretty good. Each map has so many different ways to take out a target and I think the story is very interesting. The levels are looking better than they have ever looked before."),
                     UserRating("Timmy", 1648280400, 9.0),
-                    UserRating("Tommy", 1647602400, 9.5),
-                    UserReview("K.K. Slider", 1646684400, "Animal Crossing: New Horizons is a game that everyone should play. The game is so charming and the villagers are so adorable. The amount of customization in this game is insane and I love it!")
+                    UserRating("Tommy", 1647602400, 9.0),
+                    UserReview("K.K. Slider", 1646684400, "IO really needs to work on the glitches. The cutscenes and the diversity of voices could be improved.")
                 )
             )
         )
