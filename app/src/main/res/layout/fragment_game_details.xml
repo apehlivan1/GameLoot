@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".GameDetailsActivity">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/game_title_textview"
+        android:id="@+id/item_title_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -26,31 +25,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/platform_textview"
-        app:layout_constraintEnd_toStartOf="@id/home_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/game_title_textview"
+        app:layout_constraintTop_toBottomOf="@+id/item_title_textview"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/controller" />
 
-    <Button
-        android:id="@+id/home_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/home_btn"
-        app:layout_constraintBottom_toTopOf="@+id/platform_textview"
-        app:layout_constraintEnd_toStartOf="@+id/details_button"
-        app:layout_constraintStart_toEndOf="@+id/cover_imageview"
-        app:layout_constraintTop_toBottomOf="@+id/game_title_textview" />
-
-    <Button
-        android:id="@+id/details_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/details_btn"
-        app:layout_constraintBottom_toTopOf="@+id/platform_textview"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/home_button"
-        app:layout_constraintTop_toBottomOf="@+id/game_title_textview"/>
 
     <TextView
         android:id="@+id/platform_textview"
@@ -154,7 +133,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

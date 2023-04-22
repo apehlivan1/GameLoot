@@ -1,5 +1,6 @@
 package com.example.videoigre
 
+import android.content.res.Configuration
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,10 +33,9 @@ class GameListAdapter (
     }
 
         inner class GameViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
-            val title: TextView = itemView.findViewById(R.id.game_title_textview)
+            val title: TextView = itemView.findViewById(R.id.item_title_textview)
             val releaseDate : TextView = itemView.findViewById(R.id.release_date)
             val platform : TextView = itemView.findViewById(R.id.game_platform_textview)
             val rating : TextView = itemView.findViewById(R.id.game_rating_textview)
         }
-
 }

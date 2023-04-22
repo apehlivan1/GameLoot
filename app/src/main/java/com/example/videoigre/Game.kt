@@ -1,5 +1,7 @@
 package com.example.videoigre
 
+import java.io.Serializable
+
 data class Game(
     val title: String,
     val platform: String,
@@ -12,7 +14,7 @@ data class Game(
     val genre: String,
     val description: String,
     val userImpressions: List<UserImpression>,
-    ) {
+    ) : Serializable {
     init {
         if (userImpressions.isNotEmpty()) {
             userImpressions.sortedByDescending { it.timestamp }
