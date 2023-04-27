@@ -3,16 +3,42 @@
   <component name="AndroidTestResultsUserPreferences">
     <option name="androidTestResultsTableState">
       <map>
+        <entry key="-2037851740">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Pixel_5_API_30" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="-1674065451">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="4821ceeb0405" value="120" />
+                  <entry key="Duration" value="93" />
+                  <entry key="Pixel_5_API_30" value="120" />
+                  <entry key="Tests" value="363" />
+                  <entry key="Xiaomi&#10; M2003J15SC" value="122" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="-1237138820">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_5_API_30" value="120" />
                   <entry key="Tests" value="360" />
-                  <entry key="Xiaomi&#10; M2003J15SC" value="120" />
                 </map>
               </option>
             </AndroidTestResultsTableState>
@@ -69,6 +95,19 @@
                   <entry key="Pixel_5_API_30" value="120" />
                   <entry key="Tests" value="360" />
                   <entry key="Xiaomi&#10; M2003J15SC" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="1820188925">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Pixel_5_API_30" value="120" />
+                  <entry key="Tests" value="360" />
                 </map>
               </option>
             </AndroidTestResultsTableState>
