@@ -24,6 +24,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class OwnEspressoTests {
+    //potrebno close tab ukoliko se klasa pokrece vise puta
 
     val delayIdlingResource = object : IdlingResource {
 
@@ -97,6 +98,8 @@ class OwnEspressoTests {
      * Provjerava da li je igrica na details (desnom) fragmentu prva iz liste.
      * Potom otvara sve igrice i provjerava da li su prikazane u desnom fragmentu.
      * Provjerava da li se vidi bottom bar u obje orijentacije
+     * Na kraju vraca se u portrait mode i ispituje da li button details vraca na posljednju
+     * igricu koja je otvorena u landscape modu (ujedno i posljednja u listi)
      */
     @Test
     fun owntest2() {
@@ -139,9 +142,28 @@ class OwnEspressoTests {
         onView(withId(R.id.bottom_nav))
             .check(matches(not(isDisplayed())))
 
+        // Change orientation back to portrait
         homeRule.scenario.onActivity { activity ->
-            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        }
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT }
+        // Wait for a fixed amount of time before performing the next action
+        IdlingRegistry.getInstance().register(delayIdlingResource)
+
+        //Check if all elements are there
+        onView(withId(R.id.game_list)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(0)).check(matches(allOf(
+            hasDescendant(withId(R.id.item_title_textview)),
+            hasDescendant(withId(R.id.game_rating_textview)),
+            hasDescendant(withId(R.id.release_date)),
+            hasDescendant(withId(R.id.game_platform_textview)),
+            hasDescendant(withId(R.id.game_rating_textview))
+        )))
+
+        // Check if the last opened game is displayed on
+        onView(withId(R.id.gameDetailsItem)).perform(click())
+        onView(withId(R.id.item_title_textview))
+            .check(matches(withText(games[games.size-1].title)))
+        // Unregister the delay IdlingResource
+        IdlingRegistry.getInstance().unregister(delayIdlingResource)
+
     }
 
     /**
