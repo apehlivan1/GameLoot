@@ -1,11 +1,13 @@
-package com.example.videoigre
+package ba.etf.rma23.projekat.data.repositories
 
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import ba.etf.rma23.projekat.R
 
 
 class GameDetailsFragment : Fragment() {
@@ -19,9 +21,9 @@ class GameDetailsFragment : Fragment() {
     private lateinit var genre: TextView
     private lateinit var description: TextView
     private lateinit var recycler: RecyclerView
-    private lateinit var listAdapter: DetailsAdapter
     companion object{
-        var lastOpenedGame: String = ""
+        var lastOpenedGameId: Long = -1
+        var lastOpenedGameName: String = ""
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -37,33 +39,44 @@ class GameDetailsFragment : Fragment() {
         recycler = view.findViewById(R.id.recyclerView)
 
 
-        game = getGameByTitle(arguments?.getString("selected_game"))
-        lastOpenedGame = game.title
-
-
+        val gameName: String? = arguments?.getString("selected_game_name")
+        val gameId: Long? = arguments?.getLong("selected_game_id")
+        if (gameId != null && gameName != null)
+            game = GamesRepository.getGameById(gameId, gameName)
         populateDetails()
-        recycler.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        listAdapter = DetailsAdapter(arrayListOf())
-        recycler.adapter = listAdapter
-        listAdapter.updateDetails(game.userImpressions)
+        lastOpenedGameId = game.id
+        lastOpenedGameName = game.title
+
         return view
     }
 
+
     private fun populateDetails() {
         title.text = game.title
-        platform.text = game.platform
+
+        val platformNames = game.platform?.map { it.name }
+        val platformsString = platformNames?.joinToString(", ")
+        platform.text = platformsString
+
         releaseDate.text = game.releaseDate
-        esrbRating.text = game.esrbRating
-        developer.text = game.developer
-        publisher.text = game.publisher
-        genre.text = game.genre
+
+        val esrbRatings = game.esrbRating?.mapNotNull { getRatingName(it) }
+        val esrbRatingsString = esrbRatings?.joinToString(", ")
+        esrbRating.text = esrbRatingsString
+
+        //developer.text = game.developer
+        //publisher.text = game.publisher
+
+        val genresNames = game.platform?.map { it.name }
+        val genresString = genresNames?.joinToString(", ")
+        genre.text = genresString
+
         description.text = game.description
     }
 
-    private fun getGameByTitle(name: String?): Game {
-        val games: ArrayList<Game> = arrayListOf()
-        games.addAll(GameData.getAll())
-        val game = games.find { game -> name == game.title }
-        return game?:Game("Test","Test","Test",0.0,"Test","Test", "Test", "Test", "Test", "Test", emptyList())
+    private fun getRatingName(ratingValue: Int): String? {
+        val ratingCategory = if (ratingValue in 1..5) "PEGI" else if (ratingValue in 6..12) "ESRB" else ""
+        val rating = Rating.values().find { it.value == ratingValue } ?: return null
+        return if (ratingCategory.isNotEmpty()) "$ratingCategory ${rating.name}" else rating.name
     }
 }

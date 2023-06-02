@@ -6,13 +6,13 @@
 
     <fragment
         android:id="@+id/gameDetailsItem"
-        android:name="com.example.videoigre.GameDetailsFragment"
+        android:name="ba.etf.rma23.projekat.data.repositories.GameDetailsFragment"
         android:label="GameDetailsFragment">
     </fragment>
 
     <fragment
         android:id="@+id/homeItem"
-        android:name="com.example.videoigre.HomeFragment"
+        android:name="ba.etf.rma23.projekat.data.repositories.HomeFragment"
         android:label="HomeFragment" >
         <argument
             android:name="title"

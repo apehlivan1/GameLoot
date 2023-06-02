@@ -1,4 +1,4 @@
-package com.example.videoigre
+package ba.etf.rma23.projekat
 
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
@@ -14,6 +14,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import ba.etf.rma23.projekat.data.repositories.GameListAdapter
 import junit.framework.TestCase.assertTrue
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
@@ -50,7 +51,7 @@ class OwnEspressoTests {
     }
 
     @get:Rule
-    var homeRule:ActivityScenarioRule<HomeActivity> = ActivityScenarioRule(HomeActivity::class.java)
+    var homeRule:ActivityScenarioRule<MainActivity> = ActivityScenarioRule(MainActivity::class.java)
 
     /**
      * Primarna uloga testa je da provjeri ispravnost button bara u svakoj situaciji
@@ -186,7 +187,9 @@ class OwnEspressoTests {
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE }
 
         // Check if the chosen game is displayed on the right fragment
-        onView(allOf(withId(R.id.item_title_textview), withText(randomGame.title), isDescendantOfA(withId(R.id.nav_host_fragment_right))))
+        onView(allOf(withId(R.id.item_title_textview), withText(randomGame.title), isDescendantOfA(withId(
+            R.id.nav_host_fragment_right
+        ))))
             .check(matches(isDisplayed()))
 
         // Check the layout of the new Game Details screen

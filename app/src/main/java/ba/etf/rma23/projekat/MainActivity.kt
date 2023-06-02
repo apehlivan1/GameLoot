@@ -1,4 +1,4 @@
-package com.example.videoigre
+package ba.etf.rma23.projekat
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
@@ -8,9 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import ba.etf.rma23.projekat.data.repositories.Game
+import ba.etf.rma23.projekat.data.repositories.GameDetailsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.*
 
-class HomeActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
     companion object {
@@ -42,7 +45,10 @@ class HomeActivity : AppCompatActivity() {
                     NavHostFragment.findNavController(navHostFragment).navigate(R.id.homeItem)
                 }
                 R.id.gameDetailsItem -> {
-                    NavHostFragment.findNavController(navHostFragment).navigate(R.id.gameDetailsItem, Bundle().apply { putString("selected_game", GameDetailsFragment.lastOpenedGame) })
+                    NavHostFragment.findNavController(navHostFragment).navigate(R.id.gameDetailsItem, Bundle().apply {
+                        putLong("selected_game_id", GameDetailsFragment.lastOpenedGameId)
+                        putString("selected_game_name", GameDetailsFragment.lastOpenedGameName)
+                    })
                 }
             }
             true
@@ -51,7 +57,7 @@ class HomeActivity : AppCompatActivity() {
             navView.menu.findItem(R.id.homeItem).isEnabled = destination.id != R.id.homeItem
             navView.menu.findItem(R.id.gameDetailsItem).isEnabled =
                 destination.id != R.id.gameDetailsItem
-            if (GameDetailsFragment.lastOpenedGame == "") navView.menu.findItem(R.id.gameDetailsItem).isEnabled = false
+            if (GameDetailsFragment.lastOpenedGameId == -1L) navView.menu.findItem(R.id.gameDetailsItem).isEnabled = false
         }
     }
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -59,9 +65,15 @@ class HomeActivity : AppCompatActivity() {
         val navhostfragmentRight = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_right) as NavHostFragment
         navController_right = navhostfragmentRight.findNavController()
         navController_right.graph.setStartDestination(R.id.gameDetailsItem)
-        val gamesList = GameData.getAll()
-        val gameToShow: String = if (GameDetailsFragment.lastOpenedGame == "") gamesList.first().title
-        else GameDetailsFragment.lastOpenedGame
-        NavHostFragment.findNavController(navhostfragmentRight).navigate(R.id.gameDetailsItem, Bundle().apply { putString("selected_game", gameToShow) })
+        //val gamesList = GameData.getAll()
+        val gamesList = emptyList<Game>()
+        val gameToShowId: Long = if (GameDetailsFragment.lastOpenedGameId == -1L) gamesList.first().id
+                                    else GameDetailsFragment.lastOpenedGameId
+        val gameToShowName: String = if (GameDetailsFragment.lastOpenedGameName == "") gamesList.first().title
+                                    else GameDetailsFragment.lastOpenedGameName
+        NavHostFragment.findNavController(navhostfragmentRight).navigate(R.id.gameDetailsItem, Bundle().apply {
+            putLong("selected_game_id", gameToShowId)
+            putString("selected_game_name", gameToShowName)
+        })
     }
 }

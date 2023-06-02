@@ -1,4 +1,4 @@
-package com.example.videoigre
+package ba.etf.rma23.projekat.data.repositories
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import ba.etf.rma23.projekat.R
 
 private const val ITEM_TYPE_REVIEW = 0
 private const val ITEM_TYPE_RATING = 1
 
 class DetailsAdapter (
     private var impressionsList: List<UserImpression>
-        ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class RatingBarViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val user : TextView = itemView.findViewById(R.id.username_textview)
