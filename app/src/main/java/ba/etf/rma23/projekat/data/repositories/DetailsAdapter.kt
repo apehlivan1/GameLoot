@@ -26,12 +26,12 @@ class DetailsAdapter (
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        if(viewType == ITEM_TYPE_REVIEW){
+        return if(viewType == ITEM_TYPE_REVIEW){
             val view = layoutInflater.inflate(R.layout.item_review, parent, false)
-            return ReviewViewHolder(view)
+            ReviewViewHolder(view)
         } else{
             val view = layoutInflater.inflate(R.layout.item_rate, parent, false)
-            return RatingBarViewHolder(view)
+            RatingBarViewHolder(view)
         }
     }
 

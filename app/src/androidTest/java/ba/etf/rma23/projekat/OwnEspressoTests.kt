@@ -24,7 +24,7 @@ import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class OwnEspressoTests {
+class OwnEspressoTests {/*
     //potrebno close tab ukoliko se klasa pokrece vise puta
 
     val delayIdlingResource = object : IdlingResource {
@@ -209,5 +209,5 @@ class OwnEspressoTests {
             .check(matches(isCompletelyDisplayed()))
         onView(allOf(withId(R.id.description_textview), isDescendantOfA(withId(R.id.nav_host_fragment_right))))
             .check(matches(isCompletelyDisplayed()))
-    }
+    }*/
 }

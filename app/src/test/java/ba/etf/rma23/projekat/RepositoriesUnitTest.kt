@@ -48,7 +48,7 @@ class RepositoriesUnitTest {
     @Test
     fun a2_addOneGetSaved() = runBlocking {
         AccountGamesRepository.saveGame(Game(24273,"Age of Empires: The Age of Kings","","",10.0,"","","","","","",listOf<UserImpression>()))
-        AccountGamesRepository.saveGame(Game(47076,"Age of Empires: Gold Edition","","",10.0, "","","","","","",listOf<UserImpression>()))
+        AccountGamesRepository.saveGame(Game(47076,"Age of Empires: Gold Edition","","",10.0,"","","","","","",listOf<UserImpression>()))
 
         var res = AccountGamesRepository.getSavedGames()
         assertThat(res.size,CoreMatchers.equalTo(2))
@@ -84,10 +84,10 @@ class RepositoriesUnitTest {
     fun a6_obrisiIgre() = runBlocking {
         var res=AccountGamesRepository.getSavedGames()
         assertThat(res.size,CoreMatchers.equalTo(2))
-        AccountGamesRepository.removeGame(res.get(0))
+        AccountGamesRepository.removeGame(res.get(0).id)
         res=AccountGamesRepository.getSavedGames()
         assertThat(res.size,CoreMatchers.equalTo(1))
-        AccountGamesRepository.removeGame(res.get(0))
+        AccountGamesRepository.removeGame(res.get(0).id)
         res=AccountGamesRepository.getSavedGames()
         assertThat(res.size,CoreMatchers.equalTo(0))
     }

@@ -5,9 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import ba.etf.rma23.projekat.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 
 class GameDetailsFragment : Fragment() {
@@ -21,8 +27,9 @@ class GameDetailsFragment : Fragment() {
     private lateinit var genre: TextView
     private lateinit var description: TextView
     private lateinit var recycler: RecyclerView
+    private lateinit var favouriteButton: AppCompatImageButton
     companion object{
-        var lastOpenedGameId: Long = -1
+        var lastOpenedGameId: Int = -1
         var lastOpenedGameName: String = ""
     }
 
@@ -37,46 +44,71 @@ class GameDetailsFragment : Fragment() {
         genre = view.findViewById(R.id.genre_textview)
         description = view.findViewById(R.id.description_textview)
         recycler = view.findViewById(R.id.recyclerView)
+        favouriteButton = view.findViewById(R.id.favourite_button)
 
 
         val gameName: String? = arguments?.getString("selected_game_name")
-        val gameId: Long? = arguments?.getLong("selected_game_id")
-        if (gameId != null && gameName != null)
-            game = GamesRepository.getGameById(gameId, gameName)
-        populateDetails()
-        lastOpenedGameId = game.id
-        lastOpenedGameName = game.title
-
+        val gameId: Int? = arguments?.getInt("selected_game_id")
+        if (gameId == null || gameName == null) throw NoSuchElementException("Game not found")
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+        scope.launch {
+            try {
+                game = GamesRepository.getGameById(gameId, gameName)
+                populateDetails()
+                lastOpenedGameId = game.id
+                lastOpenedGameName = game.title
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        favouriteButton.setOnClickListener{
+            saveOrRemove()
+        }
         return view
     }
 
-
     private fun populateDetails() {
-        title.text = game.title
-
-        val platformNames = game.platform?.map { it.name }
-        val platformsString = platformNames?.joinToString(", ")
-        platform.text = platformsString
-
-        releaseDate.text = game.releaseDate
-
-        val esrbRatings = game.esrbRating?.mapNotNull { getRatingName(it) }
-        val esrbRatingsString = esrbRatings?.joinToString(", ")
-        esrbRating.text = esrbRatingsString
-
-        //developer.text = game.developer
-        //publisher.text = game.publisher
-
-        val genresNames = game.platform?.map { it.name }
-        val genresString = genresNames?.joinToString(", ")
-        genre.text = genresString
-
-        description.text = game.description
+        if (::game.isInitialized) {
+            title.text = game.title
+            platform.text = game.platform
+            releaseDate.text = game.releaseDate
+            esrbRating.text = game.esrbRating
+            developer.text = game.developer
+            publisher.text = game.publisher
+            genre.text = game.genre
+            description.text = game.description
+        }
     }
 
-    private fun getRatingName(ratingValue: Int): String? {
-        val ratingCategory = if (ratingValue in 1..5) "PEGI" else if (ratingValue in 6..12) "ESRB" else ""
-        val rating = Rating.values().find { it.value == ratingValue } ?: return null
-        return if (ratingCategory.isNotEmpty()) "$ratingCategory ${rating.name}" else rating.name
+    private fun saveOrRemove() {
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+        scope.launch {
+            try {
+                val savedGames = AccountGamesRepository.getSavedGames()
+                val gameExists = savedGames.any { it.id == game.id }
+                if (gameExists) {
+                    val toast = Toast.makeText(context, "Removed from favourites!", Toast.LENGTH_SHORT)
+                    toast.show()
+                    AccountGamesRepository.removeGame(game.id)
+                } else {
+                    try {
+                        val toast = Toast.makeText(context, "Added to favourites!", Toast.LENGTH_SHORT)
+                        toast.show()
+                        AccountGamesRepository.saveGame(game)
+                    } catch (e: Exception) {
+                        onError()
+                        e.printStackTrace()
+                    }
+                }
+            } catch (e: Exception) {
+                onError()
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun onError() {
+        val toast = Toast.makeText(context, "Can't add to favourite!", Toast.LENGTH_SHORT)
+        toast.show()
     }
 }

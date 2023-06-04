@@ -23,7 +23,7 @@ class GameListAdapter (
         holder.title.text = gameList[position].title
         holder.releaseDate.text = gameList[position].releaseDate
 
-        val platformNames = gameList[position].platform?.map { it.name }
+        val platformNames = gameList[position].platformsList?.map { it.name }
         val platformsString = platformNames?.joinToString(", ")
         holder.platform.text = platformsString
 

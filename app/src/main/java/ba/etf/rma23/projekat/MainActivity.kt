@@ -8,14 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import ba.etf.rma23.projekat.data.repositories.Game
-import ba.etf.rma23.projekat.data.repositories.GameDetailsFragment
+import ba.etf.rma23.projekat.data.repositories.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
+
     companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var navController_right: NavController
@@ -25,7 +25,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
         val navView: BottomNavigationView = findViewById(R.id.bottom_nav)
 
@@ -34,8 +35,7 @@ class MainActivity : AppCompatActivity() {
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             navView.visibility = View.GONE
             onConfigurationChanged(Configuration())
-        }
-        else {
+        } else {
             navView.visibility = View.VISIBLE
         }
 
@@ -45,10 +45,11 @@ class MainActivity : AppCompatActivity() {
                     NavHostFragment.findNavController(navHostFragment).navigate(R.id.homeItem)
                 }
                 R.id.gameDetailsItem -> {
-                    NavHostFragment.findNavController(navHostFragment).navigate(R.id.gameDetailsItem, Bundle().apply {
-                        putLong("selected_game_id", GameDetailsFragment.lastOpenedGameId)
-                        putString("selected_game_name", GameDetailsFragment.lastOpenedGameName)
-                    })
+                    NavHostFragment.findNavController(navHostFragment)
+                        .navigate(R.id.gameDetailsItem, Bundle().apply {
+                            putInt("selected_game_id", GameDetailsFragment.lastOpenedGameId)
+                            putString("selected_game_name", GameDetailsFragment.lastOpenedGameName)
+                        })
                 }
             }
             true
@@ -57,23 +58,39 @@ class MainActivity : AppCompatActivity() {
             navView.menu.findItem(R.id.homeItem).isEnabled = destination.id != R.id.homeItem
             navView.menu.findItem(R.id.gameDetailsItem).isEnabled =
                 destination.id != R.id.gameDetailsItem
-            if (GameDetailsFragment.lastOpenedGameId == -1L) navView.menu.findItem(R.id.gameDetailsItem).isEnabled = false
+            if (GameDetailsFragment.lastOpenedGameId == -1) navView.menu.findItem(R.id.gameDetailsItem).isEnabled =
+                false
         }
+        AccountGamesRepository.setHash("f478ee21-a49e-44f3-a363-959d75096eb3")
     }
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         val navhostfragmentRight = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_right) as NavHostFragment
         navController_right = navhostfragmentRight.findNavController()
         navController_right.graph.setStartDestination(R.id.gameDetailsItem)
-        //val gamesList = GameData.getAll()
-        val gamesList = emptyList<Game>()
-        val gameToShowId: Long = if (GameDetailsFragment.lastOpenedGameId == -1L) gamesList.first().id
-                                    else GameDetailsFragment.lastOpenedGameId
-        val gameToShowName: String = if (GameDetailsFragment.lastOpenedGameName == "") gamesList.first().title
-                                    else GameDetailsFragment.lastOpenedGameName
-        NavHostFragment.findNavController(navhostfragmentRight).navigate(R.id.gameDetailsItem, Bundle().apply {
-            putLong("selected_game_id", gameToShowId)
-            putString("selected_game_name", gameToShowName)
-        })
+
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+        scope.launch {
+            try {
+                val gamesList = search()
+                val gameToShowId: Int = if (GameDetailsFragment.lastOpenedGameId == -1) gamesList.first().id
+                else GameDetailsFragment.lastOpenedGameId
+                val gameToShowName: String =
+                    if (GameDetailsFragment.lastOpenedGameName == "") gamesList.first().title
+                    else GameDetailsFragment.lastOpenedGameName
+                NavHostFragment.findNavController(navhostfragmentRight)
+                    .navigate(R.id.gameDetailsItem, Bundle().apply {
+                        putInt("selected_game_id", gameToShowId)
+                        putString("selected_game_name", gameToShowName)
+                    })
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private suspend fun search(): List<Game> {
+        return GamesRepository.getGamesByName("")
     }
 }

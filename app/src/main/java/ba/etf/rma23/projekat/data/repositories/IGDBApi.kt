@@ -13,8 +13,7 @@ interface IGDBApi {
     @GET("games/")
     suspend fun getGames(
         @Query("search") searchText: String,
-        @Query("fields") name: String = "id,name,platforms.name,first_release_date,rating,cover.url,genres.name,summary"
+        @Query("fields") name: String = "id,name,platforms.name,rating,first_release_date,age_ratings.rating,cover.url,genres.name,summary,involved_companies.company.name, involved_companies.developer, involved_companies.publisher"
     ): Response<List<Game>>
 }
 
-//involved_companies.company.name, involved_companies.developer, involved_companies.publisher,
