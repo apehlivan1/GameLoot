@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ba.etf.rma23.projekat.MainActivity
 import ba.etf.rma23.projekat.R
-import ba.etf.rma23.projekat.data.repositories.GamesRepository.getGameById
 import ba.etf.rma23.projekat.data.repositories.GamesRepository.getGamesByName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,7 +49,7 @@ class HomeFragment : Fragment() {
             search(searchText.text.toString())
         }
         favouritesButton.setOnClickListener{
-            val toast = Toast.makeText(context, "Your favourite games...", Toast.LENGTH_SHORT)
+            val toast = Toast.makeText(context, "Showing favourite games...", Toast.LENGTH_SHORT)
             toast.show()
             showSavedGames()
         }

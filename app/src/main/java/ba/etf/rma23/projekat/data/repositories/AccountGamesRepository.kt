@@ -17,7 +17,7 @@ object AccountGamesRepository {
 
     suspend fun getSavedGames(): List<Game> = withContext(Dispatchers.IO) {
         val savedGames = mutableListOf<Game>()
-        val favGame = help()
+        val favGame = accountGames()
 
         for (game in favGame) {
             val savedGame = GamesRepository.getGameById(game.igdbId, game.name)
@@ -26,7 +26,7 @@ object AccountGamesRepository {
          savedGames
     }
 
-    private suspend fun help(): List<FavouriteGame> = withContext(Dispatchers.IO) {
+    private suspend fun accountGames(): List<FavouriteGame> = withContext(Dispatchers.IO) {
         val response = AccountApiConfig.retrofit.getAccountGames(account.acHash)
         return@withContext response.body() ?: emptyList()
     }
