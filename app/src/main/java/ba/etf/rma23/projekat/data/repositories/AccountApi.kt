@@ -21,4 +21,16 @@ interface AccountApi {
         @Path("aid") accountId: String,
         @Path("gid") gameId: Int
     ): Response<DeleteGameResponse>
+
+    @GET("/game/{gid}/gamereviews")
+    suspend fun getReview(
+        @Path("gid") igdb_id: Int
+    ): Response<List<GameReview>>
+
+    @POST("/account/{aid}/game/{gid}/gamereview")
+    suspend fun postReview(
+        @Path("aid") accountId: String,
+        @Path("gid") gameId: Int,
+        @Body gameReview: GameReviewRequest
+    )
 }

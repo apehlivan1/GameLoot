@@ -47,8 +47,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.gameDetailsItem -> {
                     NavHostFragment.findNavController(navHostFragment)
                         .navigate(R.id.gameDetailsItem, Bundle().apply {
-                            putInt("selected_game_id", GameDetailsFragment.lastOpenedGameId)
-                            putString("selected_game_name", GameDetailsFragment.lastOpenedGameName)
+                            putInt("selected_game_id", GameDetailsFragment.lastOpenedGame)
                         })
                 }
             }
@@ -58,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             navView.menu.findItem(R.id.homeItem).isEnabled = destination.id != R.id.homeItem
             navView.menu.findItem(R.id.gameDetailsItem).isEnabled =
                 destination.id != R.id.gameDetailsItem
-            if (GameDetailsFragment.lastOpenedGameId == -1) navView.menu.findItem(R.id.gameDetailsItem).isEnabled =
+            if (GameDetailsFragment.lastOpenedGame == -1) navView.menu.findItem(R.id.gameDetailsItem).isEnabled =
                 false
         }
         AccountGamesRepository.setHash("f478ee21-a49e-44f3-a363-959d75096eb3")
@@ -74,15 +73,11 @@ class MainActivity : AppCompatActivity() {
         scope.launch {
             try {
                 val gamesList = search()
-                val gameToShowId: Int = if (GameDetailsFragment.lastOpenedGameId == -1) gamesList.first().id
-                else GameDetailsFragment.lastOpenedGameId
-                val gameToShowName: String =
-                    if (GameDetailsFragment.lastOpenedGameName == "") gamesList.first().title
-                    else GameDetailsFragment.lastOpenedGameName
+                val gameToShowId: Int = if (GameDetailsFragment.lastOpenedGame == -1) gamesList.first().id
+                else GameDetailsFragment.lastOpenedGame
                 NavHostFragment.findNavController(navhostfragmentRight)
                     .navigate(R.id.gameDetailsItem, Bundle().apply {
                         putInt("selected_game_id", gameToShowId)
-                        putString("selected_game_name", gameToShowName)
                     })
             } catch (e: Exception) {
                 e.printStackTrace()

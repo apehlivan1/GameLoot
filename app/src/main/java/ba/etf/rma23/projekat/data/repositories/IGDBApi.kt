@@ -15,5 +15,17 @@ interface IGDBApi {
         @Query("search") searchText: String,
         @Query("fields") name: String = "id,name,platforms.name,rating,first_release_date,age_ratings.rating,cover.url,genres.name,summary,involved_companies.company.name, involved_companies.developer, involved_companies.publisher"
     ): Response<List<Game>>
+
+    @Headers(
+        value = [
+            "Client-ID: n27db5sy8zyg0p1vrrhujjvi21copu",
+            "Authorization: Bearer 2o3ra0ycb37ugpkgahn9lwlljpc6xv",
+        ]
+    )
+    @GET("games/{id}")
+    suspend fun getGameById(
+        @Path("id") id: Int,
+        @Query("fields") name: String = "id,name,platforms.name,rating,first_release_date,age_ratings.rating,cover.url,genres.name,summary,involved_companies.company.name, involved_companies.developer, involved_companies.publisher"
+    ): Response<List<Game>>
 }
 

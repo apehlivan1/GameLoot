@@ -20,8 +20,8 @@ object AccountGamesRepository {
         val favGame = accountGames()
 
         for (game in favGame) {
-            val savedGame = GamesRepository.getGameById(game.igdbId, game.name)
-            savedGames.add(savedGame)
+            val savedGame = GamesRepository.getGameById(game.igdbId)
+            if (savedGame != null) savedGames.add(savedGame)
         }
          savedGames
     }
@@ -32,11 +32,11 @@ object AccountGamesRepository {
     }
 
     suspend fun saveGame(game: Game):Game {
-        val gameFromIGDB = GamesRepository.getGameById(game.id, game.title)
+        val gameFromIGDB = GamesRepository.getGameById(game.id)
         val gameToSave = FavouriteGame(game.id, game.title)
         return withContext(Dispatchers.IO) {
             AccountApiConfig.retrofit.saveGame(account.acHash, GameWrapper(gameToSave))
-            return@withContext gameFromIGDB
+            return@withContext gameFromIGDB!!
         }
     }
 

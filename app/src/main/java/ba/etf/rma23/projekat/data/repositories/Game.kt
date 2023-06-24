@@ -55,5 +55,18 @@ data class Game (
         val rating = Rating.values().find { it.value == ratingValue } ?: return null
         return if (ratingCategory.isNotEmpty()) "$ratingCategory ${rating.name}" else rating.name
     }
+
+    fun setUserImpressions(gameReviws: List<GameReview>): List<UserImpression> {
+        val userImpressionsLocal = mutableListOf<UserImpression>()
+        for (gameReview in gameReviws) {
+            if (gameReview.rating != null)
+                userImpressionsLocal.add(UserRating(gameReview.student,
+                    gameReview.timestamp?.toLong() ?: 0, gameReview.rating!!.toDouble()))
+            if (gameReview.review != null)
+                userImpressionsLocal.add(UserReview(gameReview.student, gameReview.timestamp?.toLong() ?: 0, gameReview.review!!))
+        }
+        userImpressions = userImpressionsLocal
+        return userImpressionsLocal
+    }
 }
 

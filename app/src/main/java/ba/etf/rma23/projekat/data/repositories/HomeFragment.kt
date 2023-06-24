@@ -1,6 +1,8 @@
 package ba.etf.rma23.projekat.data.repositories
 
+import android.content.Context
 import android.content.res.Configuration
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +31,6 @@ class HomeFragment : Fragment() {
     private lateinit var favouritesButton: AppCompatImageButton
     private lateinit var sortButton: AppCompatImageButton
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         searchText = view.findViewById(R.id.search_query_edittext)
@@ -41,22 +42,38 @@ class HomeFragment : Fragment() {
         gameListAdapter = GameListAdapter(arrayListOf()) { games -> showGameDetails(games) }
         gameList.adapter = gameListAdapter
 
-        search("")
+        if (isConnectedToNetwork()) {
+            search("")
+        } else {
+            Toast.makeText(context, "No internet connection available", Toast.LENGTH_SHORT).show()
+        }
 
         searchButton.setOnClickListener{
-            val toast = Toast.makeText(context, "Search start", Toast.LENGTH_SHORT)
-            toast.show()
-            search(searchText.text.toString())
+            if (isConnectedToNetwork()) {
+                search(searchText.text.toString())
+                Toast.makeText(context, "Search start", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "No internet connection available", Toast.LENGTH_SHORT).show()
+            }
         }
         favouritesButton.setOnClickListener{
             val toast = Toast.makeText(context, "Showing favourite games...", Toast.LENGTH_SHORT)
             toast.show()
-            showSavedGames()
+            if (isConnectedToNetwork()) {
+                showSavedGames()
+            } else {
+                Toast.makeText(context, "No internet connection available", Toast.LENGTH_SHORT).show()
+            }
         }
         sortButton.setOnClickListener{
             val toast = Toast.makeText(context, "Sorting...", Toast.LENGTH_SHORT)
             toast.show()
-            sortGames()
+
+            if (isConnectedToNetwork()) {
+                sortGames()
+            } else {
+                Toast.makeText(context, "No internet connection available", Toast.LENGTH_SHORT).show()
+            }
         }
         return view
     }
@@ -105,17 +122,20 @@ class HomeFragment : Fragment() {
         toast.show()
     }
     private fun showGameDetails(game: Game) {
-        GameDetailsFragment.lastOpenedGameId = game.id
-        GameDetailsFragment.lastOpenedGameName = game.title
+        GameDetailsFragment.lastOpenedGame = game.id
         if (resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE)
             findNavController().navigate(R.id.gameDetailsItem, Bundle().apply {
                 putInt("selected_game_id", game.id)
-                putString("selected_game_name", game.title)
             })
         else
             MainActivity.navController_right.navigate(R.id.gameDetailsItem, Bundle().apply {
                 putInt("selected_game_id", game.id)
-                putString("selected_game_name", game.title)
             })
+    }
+
+    private fun isConnectedToNetwork(): Boolean {
+        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+        val networkInfo = connectivityManager?.activeNetworkInfo
+        return networkInfo?.isConnected == true
     }
 }

@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ba.etf.rma23.projekat.R
 import com.bumptech.glide.Glide
@@ -17,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import ba.etf.rma23.projekat.data.repositories.AccountState.account
 
 
 class GameDetailsFragment : Fragment() {
@@ -30,11 +32,11 @@ class GameDetailsFragment : Fragment() {
     private lateinit var genre: TextView
     private lateinit var description: TextView
     private lateinit var recycler: RecyclerView
+    private lateinit var listAdapter: DetailsAdapter
     private lateinit var favouriteButton: AppCompatImageButton
     private lateinit var picture: ImageView
     companion object{
-        var lastOpenedGameId: Int = -1
-        var lastOpenedGameName: String = ""
+        var lastOpenedGame: Int = -1
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -51,17 +53,19 @@ class GameDetailsFragment : Fragment() {
         favouriteButton = view.findViewById(R.id.favourite_button)
         picture = view.findViewById(R.id.cover_imageview)
 
+        recycler.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        listAdapter = DetailsAdapter(arrayListOf())
+        recycler.adapter = listAdapter
 
-        val gameName: String? = arguments?.getString("selected_game_name")
-        val gameId: Int? = arguments?.getInt("selected_game_id")
-        if (gameId == null || gameName == null) throw NoSuchElementException("Game not found")
+        val gameId: Int = arguments?.getInt("selected_game_id")
+            ?: throw NoSuchElementException("Game not found")
         val scope = CoroutineScope(Job() + Dispatchers.Main)
         scope.launch {
             try {
-                game = GamesRepository.getGameById(gameId, gameName)
+                game = GamesRepository.getGameById(gameId)!!
                 populateDetails()
-                lastOpenedGameId = game.id
-                lastOpenedGameName = game.title
+                getUserImpressions()
+                lastOpenedGame = game.id
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -107,8 +111,7 @@ class GameDetailsFragment : Fragment() {
                     AccountGamesRepository.removeGame(game.id)
                 } else {
                     try {
-                        val toast = Toast.makeText(context, "Added to favourites!", Toast.LENGTH_SHORT)
-                        toast.show()
+                        Toast.makeText(context, "Added to favourites!", Toast.LENGTH_SHORT).show()
                         AccountGamesRepository.saveGame(game)
                     } catch (e: Exception) {
                         onError()
@@ -123,7 +126,22 @@ class GameDetailsFragment : Fragment() {
     }
 
     private fun onError() {
-        val toast = Toast.makeText(context, "Can't add to favourite!", Toast.LENGTH_SHORT)
-        toast.show()
+        Toast.makeText(context, "Can't add to favourite!", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun addReview() {
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+        scope.launch {
+            GameReviewsRepository.sendReview(context!!, GameReview(3, "testni komentar", game.id, true, "", account.student))
+        }
+    }
+
+    private fun getUserImpressions() {
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+        scope.launch {
+            val reviews = GameReviewsRepository.getReviewsForGame(game.id)
+            val impressions = game.setUserImpressions(reviews)
+            listAdapter.updateDetails(impressions)
+        }
     }
 }

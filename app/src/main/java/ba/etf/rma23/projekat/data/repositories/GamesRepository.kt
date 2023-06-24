@@ -26,10 +26,11 @@ object GamesRepository {
         return safeGames
     }
 
-    suspend fun getGameById(id: Int, name: String?): Game {
-        if (name == null) throw NoSuchElementException("Game not found")
-        val gamesWithSameName = getGamesByName(name)
-        return gamesWithSameName.find { it.id == id } ?: throw NoSuchElementException("Game not found")
+    suspend fun getGameById(id: Int): Game?  = withContext(Dispatchers.IO) {
+        val response = IGDBApiConfig.retrofit.getGameById(id)
+        val game = response.body()?.get(0)
+        game?.initialize()
+        return@withContext game
     }
 
     suspend fun sortGames(): List<Game> {
